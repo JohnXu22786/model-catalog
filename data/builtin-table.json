@@ -1,0 +1,95 @@
+{
+  "_meta": {
+    "note": "内置兜底默认表：当主机接口、用户覆盖、外部镜像均无法提供某模型的事实时使用（仅填充缺失字段）。价格为每百万 token 美元（USD/1M）。本表收录官方 API 的定价与能力事实，如与官方文档不一致请以官方文档为准，并欢迎更新本文件。",
+    "updatedAt": "2026-08-16",
+    "pricingBasis": "基准价（amounts）取首档（off-peak）；peak 档为动态计费档。"
+  },
+  "models": [
+    {
+      "id": "deepseek-v4-flash",
+      "contextWindow": 1048576,
+      "maxOutput": 393216,
+      "status": "active",
+      "dynamic": true,
+      "note": "2026-08-16 起按峰值/非峰值动态计费：峰值 01:00-04:00 与 06:00-10:00 UTC，其余时段半价；推理 token 按输出价计费",
+      "tiers": [
+        {
+          "label": "off-peak",
+          "amounts": { "input": 0.22, "output": 0.66, "cacheRead": 0.007, "cacheWrite": null, "internalReasoning": null }
+        },
+        {
+          "label": "peak",
+          "windows": [["01:00", "04:00"], ["06:00", "10:00"]],
+          "amounts": { "input": 0.44, "output": 1.32, "cacheRead": 0.014, "cacheWrite": null, "internalReasoning": null }
+        }
+      ],
+      "capabilities": {
+        "toolCalling": true,
+        "structuredOutput": true,
+        "streaming": true,
+        "vision": false,
+        "parallelToolCalls": true,
+        "reasoning": true,
+        "responsesApi": true
+      }
+    },
+    {
+      "id": "deepseek-v4-pro",
+      "contextWindow": 1048576,
+      "maxOutput": 393216,
+      "status": "active",
+      "dynamic": true,
+      "note": "2026-08-16 起按峰值/非峰值动态计费：峰值 01:00-04:00 与 06:00-10:00 UTC，其余时段半价；推理 token 按输出价计费",
+      "tiers": [
+        {
+          "label": "off-peak",
+          "amounts": { "input": 0.66, "output": 1.98, "cacheRead": 0.022, "cacheWrite": null, "internalReasoning": null }
+        },
+        {
+          "label": "peak",
+          "windows": [["01:00", "04:00"], ["06:00", "10:00"]],
+          "amounts": { "input": 1.32, "output": 3.96, "cacheRead": 0.044, "cacheWrite": null, "internalReasoning": null }
+        }
+      ],
+      "capabilities": {
+        "toolCalling": true,
+        "structuredOutput": true,
+        "streaming": true,
+        "vision": false,
+        "parallelToolCalls": true,
+        "reasoning": true,
+        "responsesApi": true
+      }
+    },
+    {
+      "id": "deepseek-chat",
+      "status": "deprecated",
+      "note": "旧模型名：指向 deepseek-v4-flash 的非思考模式，官方已公告停用，建议迁移到 deepseek-v4-flash",
+      "aliases": [],
+      "capabilities": {
+        "toolCalling": true,
+        "structuredOutput": true,
+        "streaming": true,
+        "vision": false,
+        "parallelToolCalls": true,
+        "reasoning": false,
+        "responsesApi": true
+      }
+    },
+    {
+      "id": "deepseek-reasoner",
+      "status": "deprecated",
+      "note": "旧模型名：指向 deepseek-v4-flash 的思考模式，官方已公告停用，建议迁移到 deepseek-v4-flash",
+      "aliases": [],
+      "capabilities": {
+        "toolCalling": true,
+        "structuredOutput": true,
+        "streaming": true,
+        "vision": false,
+        "parallelToolCalls": true,
+        "reasoning": true,
+        "responsesApi": true
+      }
+    }
+  ]
+}

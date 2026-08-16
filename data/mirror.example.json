@@ -1,0 +1,26 @@
+{
+  "_meta": {
+    "说明": "外部价格镜像示例：把本文件部署为静态 JSON，或用 --external-url 指向任意同构端点。结构为数组或 {models: [...]}，字段与 catalog.json 的 models 条目一致（id 必填，其余可选）。镜像仅在主机完全无定价时兜底。"
+  },
+  "models": [
+    {
+      "id": "gpt-4o-mini",
+      "contextWindow": 128000,
+      "maxOutput": 16384,
+      "pricing": {
+        "input": 0.15,
+        "output": 0.6
+      },
+      "capabilities": {
+        "toolCalling": true,
+        "structuredOutput": true,
+        "vision": true,
+        "parallelToolCalls": true,
+        "streaming": true,
+        "reasoning": false,
+        "responsesApi": true
+      },
+      "status": "active"
+    }
+  ]
+}

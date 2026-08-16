@@ -1,0 +1,24 @@
+{
+  "_meta": {
+    "说明": "用户手动覆盖/补充配置：把本文件复制为 data/overrides.json 后按需编辑。语义：配置了哪个字段就覆盖哪个字段——能力/状态/上下文为整字段替换；pricing 为字段级合并（只替换配置到的价格项，其余价格项保留其他来源的值）；未配置的字段保持其他来源的值。"
+  },
+  "models": [
+    {
+      "id": "example-gateway-model",
+      "contextWindow": 128000,
+      "maxOutput": 8192,
+      "pricing": {
+        "input": 1.5,
+        "output": 7.5,
+        "cacheRead": 0.15
+      },
+      "capabilities": {
+        "toolCalling": true,
+        "structuredOutput": false,
+        "vision": false
+      },
+      "status": "active",
+      "note": "该模型在网关处无定价元数据，此为本机手工校准值"
+    }
+  ]
+}

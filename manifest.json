@@ -1,0 +1,46 @@
+{
+  "id": "dsh.model-catalog",
+  "name": "Model Catalog（模型目录自动发现）",
+  "version": "1.0.0",
+  "description": "从 OpenAI 兼容 API 主机自动拉取模型列表、定价与能力，归一化后生成 dsh 可直接使用的模型配置。",
+  "kind": "plugin",
+  "requires": {
+    "dsh": ">=0.1.0"
+  },
+  "entry": {
+    "module": "./dist/src/plugin.js",
+    "factory": "createPlugin",
+    "cli": "./dist/src/main.js"
+  },
+  "interfaces": {
+    "tools": [
+      "catalog.discover",
+      "catalog.list",
+      "catalog.refresh",
+      "catalog.select",
+      "catalog.probe"
+    ],
+    "events": ["catalog.updated", "catalog.failed"],
+    "config": {
+      "file": "catalog.config.json",
+      "keys": [
+        "catalog.baseUrl",
+        "catalog.apiKeyEnv",
+        "catalog.probe",
+        "catalog.externalUrl",
+        "catalog.outputDir",
+        "catalog.cacheDir"
+      ]
+    }
+  },
+  "permissions": ["network", "fs:read", "fs:write"],
+  "resources": {
+    "data": [
+      "data/builtin-table.json",
+      "data/overrides.example.json",
+      "data/aliases.example.json",
+      "data/mirror.example.json"
+    ],
+    "outputs": ["out/catalog.json", "out/dsh-models.json", "out/report.md"]
+  }
+}

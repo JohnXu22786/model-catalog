@@ -1,0 +1,30 @@
+{
+  "name": "model-catalog",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "dsh 插件：模型目录自动发现 —— 从 OpenAI 兼容 API 主机自动拉取模型列表、定价与能力，归一化后生成可直接使用的配置。",
+  "bin": {
+    "model-catalog": "dist/src/main.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "tsc && node --test \"dist/test/*.test.js\"",
+    "clean": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\""
+  },
+  "engines": {
+    "node": ">=21"
+  },
+  "keywords": [
+    "dsh",
+    "plugin",
+    "model",
+    "catalog",
+    "pricing",
+    "llm"
+  ],
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "typescript": "^5.6.0"
+  }
+}

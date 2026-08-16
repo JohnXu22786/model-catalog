@@ -1,0 +1,9 @@
+{
+  "_meta": {
+    "说明": "别名映射：把本文件复制为 data/aliases.json 后按需编辑。键为别名/旧名，值为规范模型 id。归一化时用规范 id 去匹配外部镜像与内置默认表，匹配结果会写入条目的 aliases 字段。"
+  },
+  "aliases": {
+    "deepseek-chat": "deepseek-v4-flash",
+    "deepseek-reasoner": "deepseek-v4-flash"
+  }
+}
