@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { parseFlags, flagStr, parseSelection } from '../src/cli-parse.js';
+import { parseFlags, flagStr, parseSelection, coerceProbeMode } from '../src/cli-parse.js';
 
 test('parseFlags：--k v 与 --k=v 两种形态', () => {
   assert.deepEqual(parseFlags(['--base-url', 'https://x', '--probe=always', '--refresh']), {
@@ -36,4 +36,28 @@ test('parseSelection：非法输入抛错', () => {
   assert.throws(() => parseSelection('abc', 3), /无法解析/);
   assert.throws(() => parseSelection('5-1', 3), /无效范围/);
   assert.throws(() => parseSelection('1,x', 3), /无法解析/);
+});
+
+test('parseSelection：选择串内/整串空白被容忍，none 带空格仍为空', () => {
+  assert.deepEqual(parseSelection('  ', 3), [0, 1, 2]);
+  assert.deepEqual(parseSelection(' none ', 3), []);
+  assert.deepEqual(parseSelection(' 1 , 3-5 ', 10), [0, 2, 3, 4]);
+});
+
+test('parseFlags：值为空字符串、相邻布尔标记、末尾取值等边界', () => {
+  assert.deepEqual(parseFlags(['--out=']), { '--out': '' });
+  assert.equal(flagStr(parseFlags(['--out=']), '--out'), null, '空值视为缺失');
+  assert.deepEqual(parseFlags(['--a', '--b']), { '--a': true, '--b': true });
+  assert.deepEqual(parseFlags(['--out', 'x', '--cache', 'v']), { '--out': 'x', '--cache': 'v' });
+  assert.equal(flagStr(parseFlags(['--probe=']), '--probe'), null);
+});
+
+test('coerceProbeMode：合法值通过，非法/空值回退到给定默认', () => {
+  assert.equal(coerceProbeMode('auto'), 'auto');
+  assert.equal(coerceProbeMode('never'), 'never');
+  assert.equal(coerceProbeMode('always'), 'always');
+  assert.equal(coerceProbeMode('bogus'), 'auto');
+  assert.equal(coerceProbeMode('bogus', 'never'), 'never');
+  assert.equal(coerceProbeMode(null), 'auto');
+  assert.equal(coerceProbeMode(''), 'auto');
 });
