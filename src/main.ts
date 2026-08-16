@@ -29,7 +29,7 @@ import { DEFAULT_SETTINGS } from './config/settings.js';
 import type { ModelEntry } from './domain.js';
 import { HOST_KIND_LABELS } from './domain.js';
 import { capabilitySummary } from './probe/verifier.js';
-import { parseFlags, flagStr, parseSelection, type FlagMap } from './cli-parse.js';
+import { parseFlags, flagStr, parseSelection, coerceProbeMode, type FlagMap } from './cli-parse.js';
 
 async function loadSettings(flags: FlagMap): Promise<Settings> {
   const root = pluginRoot();
@@ -38,7 +38,7 @@ async function loadSettings(flags: FlagMap): Promise<Settings> {
   const settings: Settings = { ...DEFAULT_SETTINGS, ...fileSettings };
   settings.baseUrl = flagStr(flags, '--base-url') ?? settings.baseUrl;
   settings.apiKeyEnv = flagStr(flags, '--api-key-env') ?? settings.apiKeyEnv;
-  settings.probe = (flagStr(flags, '--probe') as Settings['probe'] | null) ?? settings.probe;
+  settings.probe = coerceProbeMode(flagStr(flags, '--probe'), settings.probe);
   settings.outputDir = flagStr(flags, '--out') ?? settings.outputDir;
   settings.cacheDir = flagStr(flags, '--cache') ?? settings.cacheDir;
   settings.externalUrl = flagStr(flags, '--external-url') ?? settings.externalUrl;

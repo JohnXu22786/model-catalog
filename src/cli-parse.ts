@@ -2,6 +2,17 @@
 
 export type FlagMap = Record<string, string | true>;
 
+const PROBE_MODES = new Set(['auto', 'never', 'always']);
+
+/**
+ * 把 `--probe` 的原始值规整为合法探测模式。
+ * 与配置解析（settings.ts）语义一致：非法值忽略并回退到给定默认，而不是报错。
+ */
+export function coerceProbeMode(raw: string | null, fallback: 'auto' | 'never' | 'always' = 'auto'): 'auto' | 'never' | 'always' {
+  if (raw !== null && PROBE_MODES.has(raw)) return raw as 'auto' | 'never' | 'always';
+  return fallback;
+}
+
 export function parseFlags(args: string[]): FlagMap {
   const flags: FlagMap = {};
   for (let i = 0; i < args.length; i += 1) {
