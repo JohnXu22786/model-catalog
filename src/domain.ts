@@ -262,7 +262,9 @@ export function ratioToPerCall(
 // 杂项
 // ---------------------------------------------------------------------------
 
-/** 规整 baseUrl：去尾部斜杠、去 /v1 后缀（假设 /v1 为 OpenAI 兼容路径）。 */
+/** 规整 baseUrl：去尾部斜杠、去 /v1 后缀（假设 /v1 为 OpenAI 兼容路径）。
+ *  注意去 /v1 后再清一次尾部斜杠，避免 "https://h.example.com//v1" 这类双重
+ *  斜杠输入残留单个斜杠。 */
 export function normalizeBaseUrl(raw: string): string {
   let url = raw.trim();
   if (!/^https?:\/\//i.test(url)) {
@@ -270,13 +272,15 @@ export function normalizeBaseUrl(raw: string): string {
   }
   url = url.replace(/\/+$/, '');
   if (/\/v1$/i.test(url)) url = url.slice(0, -3);
+  url = url.replace(/\/+$/, '');
   return url;
 }
 
 /** 由主机名推断 provider 标识。 */
 export function providerSlug(baseUrl: string): string {
   try {
-    const host = new URL(baseUrl).hostname.toLowerCase();
+    // url.hostname 对 IPv6 回环返回 "[::1]"（带方括号），统一去括号后再匹配
+    const host = new URL(baseUrl).hostname.toLowerCase().replace(/^\[|\]$/g, '');
     if (host === 'localhost' || host === '127.0.0.1' || host === '::1' || host.startsWith('192.168.') || host.startsWith('10.')) {
       return 'local';
     }
