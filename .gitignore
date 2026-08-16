@@ -3,3 +3,11 @@ dist/
 var/
 out/
 *.log
+
+# 编辑器 / 系统 / 打包残留
+.DS_Store
+Thumbs.db
+*.tgz
+*.tsbuildinfo
+coverage/
+*.tmp
