@@ -225,7 +225,7 @@ model-catalog config                   show effective config
 
 ## dsh Integration
 
-The plugin is self-contained: `manifest.json` declares the entry and interfaces, and `dist/src/plugin.js` exports a `createPlugin()` factory registering 5 tools (`catalog.discover/list/refresh/select/probe`) and 2 events (`catalog.updated/catalog.failed`). Harness loading, tool parameters and returns, event payloads, and how config fragments are consumed are all covered in **[docs/integration.md](docs/integration.md)**.
+The plugin is self-contained: `manifest.json` declares the entry and interfaces, and `dist/src/plugin.js` exports a `createPlugin()` factory registering 5 tools (`catalog.discover/list/refresh/select/probe`) and 2 events (`catalog.updated/catalog.failed`). It is also installable via the dsh bundle (`package.json` → `dsh.bundle` → `cordis.patch.yml`): the Cordis entry `dist/src/dsh.js` exports `name`/`inject`/`apply` and registers the same 5 tools on the harness. Harness loading, tool parameters and returns, event payloads, and how config fragments are consumed are all covered in **[docs/integration.md](docs/integration.md)**.
 
 ## Limitations and Notes
 

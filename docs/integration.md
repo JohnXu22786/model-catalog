@@ -20,7 +20,24 @@
 | `permissions` | `network` / `fs:read` / `fs:write` | 需要的权限声明 |
 | `resources` | data/*、out/* | 依赖与产物清单 |
 
-构建要求：插件以 TypeScript 源码形式分发，需先执行 `npm install && npm run build` 生成 `dist/`（或由 harness 构建系统执行）。运行时仅依赖 Node.js ≥ 20 内置能力，无第三方依赖。
+构建要求：插件以 TypeScript 源码形式分发，需先执行 `npm install && npm run build` 生成 `dist/`（或由 harness 构建系统执行）。运行时仅依赖 Node.js ≥ 21 内置能力（见 `package.json` 的 engines 与 README），无第三方依赖。
+
+### 1.1 Cordis bundle 入口（`dsh plugin add` 的加载方式）
+
+除 manifest 工厂外，插件还声明了 `dsh.bundle`（`package.json` 指向 `cordis.patch.yml`）：
+安装插件行后，dsh 以 Cordis 插件方式加载 `dist/src/dsh.js`，该模块导出：
+
+```ts
+export const name = 'model-catalog';          // 插件行引用的包名
+export const inject = ['tools'];               // 依赖 dsh 的工具注册服务
+export function apply(ctx, rowConfig) { ... } // 加载时执行
+```
+
+`apply` 把 dsh 的 Context 适配为 `createPlugin().register()` 期望的接口，注册 5 个工具
+（`catalog.discover` / `list` / `refresh` / `select` / `probe`）并转换为 dsh 的
+ToolDefinition 形态；卸载（热重载）时回收全部注册。工具参数与返回与第 3 节完全一致；
+配置键（`catalog.baseUrl`、`catalog.apiKeyEnv` 等）可从插件行的 `config` 提供，
+未提供时回落到 `catalog.config.json` 与默认值。
 
 ## 2. 加载流程
 

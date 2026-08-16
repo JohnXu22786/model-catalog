@@ -213,7 +213,7 @@ model-catalog config                   查看生效配置
 
 ## dsh 接入
 
-插件自包含：`manifest.json` 声明入口与接口，`dist/src/plugin.js` 导出 `createPlugin()` 工厂，注册 5 个工具（`catalog.discover/list/refresh/select/probe`）与 2 个事件（`catalog.updated/catalog.failed`）。harness 加载方式、工具参数与返回、事件载荷、配置片段消费方式详见 **[docs/integration.md](docs/integration.md)**。
+插件自包含：`manifest.json` 声明入口与接口，`dist/src/plugin.js` 导出 `createPlugin()` 工厂，注册 5 个工具（`catalog.discover/list/refresh/select/probe`）与 2 个事件（`catalog.updated/catalog.failed`）。同时支持 dsh bundle 安装（`package.json` → `dsh.bundle` → `cordis.patch.yml`）：Cordis 入口 `dist/src/dsh.js` 导出 `name`/`inject`/`apply`，把同样的 5 个工具注册到 harness。harness 加载方式、工具参数与返回、事件载荷、配置片段消费方式详见 **[docs/integration.md](docs/integration.md)**。
 
 ## 限制与说明
 
