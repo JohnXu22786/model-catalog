@@ -1,0 +1,10 @@
+# model-catalog 的 dsh 接入层。
+# 本 bundle 被安装进 profile 后，这一行会把本包以插件行的形式插入配置树：
+# 行 id 全局唯一；name 指向包名（由 Node 解析到已安装的代码），
+# 加载后注册 5 个工具：catalog.discover / list / refresh / select / probe。
+# 如需覆盖配置，请在用户自己的 profile 层
+# （$DSH_HOME/profiles/<name>/cordis.patch.yml）里按同一 id 覆盖本行，
+# 而不要直接改动本文件（见 README「配置」一节）。
+- insert:
+    - id: model-catalog
+      name: model-catalog

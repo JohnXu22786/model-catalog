@@ -5,8 +5,28 @@
   "type": "module",
   "license": "MIT",
   "description": "dsh 插件：模型目录自动发现 —— 从 OpenAI 兼容 API 主机自动拉取模型列表、定价与能力，归一化后生成可直接使用的配置。",
+  "main": "dist/src/dsh.js",
+  "exports": {
+    ".": "./dist/src/dsh.js"
+  },
   "bin": {
     "model-catalog": "dist/src/main.js"
+  },
+  "files": [
+    "dist",
+    "src",
+    "data",
+    "docs",
+    "manifest.json",
+    "cordis.patch.yml",
+    "README.md",
+    "README.zh.md",
+    "LICENSE"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
   },
   "scripts": {
     "build": "tsc",
@@ -18,6 +38,7 @@
   },
   "keywords": [
     "dsh",
+    "dsh-plugin",
     "plugin",
     "model",
     "catalog",
