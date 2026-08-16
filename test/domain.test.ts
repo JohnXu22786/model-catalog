@@ -86,3 +86,23 @@ test('provider 标识由主机名推断', () => {
   assert.equal(providerSlug('https://gate.example.net'), 'example');
   assert.equal(providerSlug('http://127.0.0.1:8000'), 'local');
 });
+
+test('normalizeBaseUrl：双重斜杠 + /v1 组合不留尾斜杠，大小写不敏感', () => {
+  assert.equal(normalizeBaseUrl('https://h.example.com//v1'), 'https://h.example.com');
+  assert.equal(normalizeBaseUrl('https://h.example.com//v1//'), 'https://h.example.com');
+  assert.equal(normalizeBaseUrl('https://h.example.com/V1'), 'https://h.example.com');
+  assert.equal(normalizeBaseUrl('https://h.example.com'), 'https://h.example.com');
+});
+
+test('provider 标识：IPv6 回环与多级子域名', () => {
+  assert.equal(providerSlug('http://[::1]:11434'), 'local');
+  assert.equal(providerSlug('http://10.0.0.8:8080'), 'local');
+  assert.equal(providerSlug('https://api.cn.example.com/v1'), 'example');
+  assert.equal(providerSlug('not a url'), 'unknown');
+});
+
+test('每 token 价格的十进制变形输入', () => {
+  assert.equal(perTokenToPerMillion('00.5'), 500000);
+  assert.equal(perTokenToPerMillion('¥0.001'), 1000);
+  assert.equal(perTokenToPerMillion('  $0.00003  '), 30);
+});
